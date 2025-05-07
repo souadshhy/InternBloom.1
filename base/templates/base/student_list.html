@@ -1,0 +1,33 @@
+{% extends 'base/main.html' %} {% block content %}
+
+<h1>Number of Students: {{count}}</h1>
+
+<div id="search-add-wrapper">
+  <a id="add-link" href="{% url 'student_create' %}"> &nbsp; Add
+    Student &#x2b</a>
+
+  <form method="get" class="search">
+    <input type="text" name="searchArea" value="{{search_input}}"
+      placeholder="Student Name" />
+    <input type="submit" value="Search" class="search-button" />
+  </form>
+</div>
+
+<div class="elements-wrapper">
+  {%for stu in students%}
+  <div class="element-wrapper">
+    <div class="title">
+      <a href="{%url 'student_detail' stu.id %}"> {{stu.id}}</a>
+      <a href="{%url 'student_detail' stu.id %}">
+        {{stu.name}} {{stu.surname}}
+      </a>
+      <a href="{% url 'student_update' stu.id %}">Edit </a>
+      <a class="delete-link"
+        href="{% url 'student_delete' stu.id %}">&nbsp;&#215;</a>
+    </div>
+  </div>
+  {% empty %}
+  <h3 class="error">No Students Found</h3>
+  {% endfor %}
+</div>
+{% endblock content %}

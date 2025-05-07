@@ -1,0 +1,32 @@
+{% extends "base/reports.html" %} {% block report_table %}
+<h3>Activity of Students per Month</h3>
+
+<div class="d-flex justify-content-center">
+  <table class="table table-bordered t">
+    <thead class="t-head">
+      <tr>
+        <th scope="col">Department</th>
+        <th scope="col">Student ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Surname</th>
+        <th scope="col">Major</th>
+        <th scope="col">Registration Year</th>
+        <th scope="col">Number of Applications</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in report_data %}
+      <tr class="t-row">
+        <td>{{ row.0 }}</td>
+        <td>{{ row.1 }}</td>
+        <td>{{ row.2 }}</td>
+        <td>{{ row.3 }}</td>
+        <td>{{ row.4 }}</td>
+        <td>{{ row.5 }}</td>
+        <td>{{ row.6 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock report_table %}

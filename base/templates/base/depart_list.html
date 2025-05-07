@@ -1,0 +1,31 @@
+{% extends 'base/main.html' %} {% block content %}
+
+<h1>Number of Departments: {{count}}</h1>
+<div id="search-add-wrapper">
+    <a id="add-link" href="{% url 'depart_create' %}"> &nbsp; Create
+        Department &#x2b</a>
+
+    <form class="search" method="get">
+        <input placeholder="Department Name" type="text" name="searchArea" value="{{search_input}}" />
+        <input class="search-button" type="submit" value="Search" />
+    </form>
+</div>
+
+<div class="elements-wrapper">
+    {% for depart in departs %}
+    <div class="element-wrapper">
+        <div class="title">
+            <a>
+                {{depart.deptName}}
+            </a>
+            <a href="{% url 'depart_update' depart.id %}">Edit </a>
+            <a class="delete-link"
+                href="{%url 'depart_delete' depart.id %}">&nbsp;&#215;</a>
+        </div>
+    </div>
+    {% empty %}
+    <h3 class="error">No Departments Found</h3>
+    {% endfor %}
+</div>
+
+{% endblock content %}

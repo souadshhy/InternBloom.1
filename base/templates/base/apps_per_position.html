@@ -1,0 +1,31 @@
+{% extends "base/reports.html" %} {% block report_table %}
+<h3>Total Applications per Position</h3>
+<div class="d-flex justify-content-center">
+  <table class="table table-bordered t">
+    <thead class="t-head">
+      <tr>
+        <th scope="col">Company</th>
+        <th scope="col">Title</th>
+        <th scope="col">Duration<br />(months)</th>
+        <th scope="col">Location</th>
+        <th scope="col">Paid</th>
+        <th scope="col">Available</th>
+        <th scope="col">Total Applications</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in report_data %}
+      <tr class="t-row">
+        <td>{{ row.0 }}</td>
+        <td>{{ row.1 }}</td>
+        <td>{{ row.2 }}</td>
+        <td>{{ row.3 }}</td>
+        <td>{{ row.4|yesno:"Paid,Unpaid" }}</td>
+        <td>{{ row.5|yesno:" 🟢,🔴" }}</td>
+        <td>{{ row.6 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock report_table%}

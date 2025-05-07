@@ -1,0 +1,10 @@
+{% extends 'base/main.html' %} {% block content %}
+
+<h2>Position Details</h2>
+<a href=" {%url 'positions'%} "> &lt; Back</a>
+
+<p>Title: {{position.title}}<span> at {{position.company}}</span></p>
+<p>Duration: {{position.duration}}</p>
+<p>Location: {{position.location}}</p>
+<p>Paid: {{position.paid}}</p>
+{% endblock content %}

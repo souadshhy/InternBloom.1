@@ -1,0 +1,21 @@
+{% extends "base/reports.html" %} {% block report_table %}
+<h3>Positions per Company</h3>
+<div class="d-flex justify-content-center">
+  <table class="table table-bordered t">
+    <thead class='t-head'>
+      <tr>
+        <th scope="col">Company</th>
+        <th scope="col">Number of Positions Offered</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in report_data %}
+      <tr class="t-row">
+        <td>{{ row.0 }}</td>
+        <td>{{ row.1 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock report_table%}

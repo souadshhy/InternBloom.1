@@ -1,0 +1,38 @@
+{% extends 'base/main.html' %} {% block content %}
+<style>
+  .t {
+    width: 90%;
+    margin: auto;
+    background-color: rgba(255, 245, 228, 0.74);
+    color: rgba(29, 24, 24, 0.932);
+    border: 2px solid white;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .t-head {
+    background-color: rgba(224, 212, 189, 0.65);
+  }
+  .t-head th {
+    padding: 16px;
+  }
+  .t-row {
+    background-color: rgba(240, 224, 229, 0.26);
+  }
+  .t-row td {
+    text-align: center;
+    padding: 14px;
+  }
+  .t-row:hover {
+    background-color: rgba(230, 208, 215, 0.26);
+  }
+  h3 {
+    text-align: center;
+    font-size: 2rem;
+  }
+</style>
+
+{% if error %}
+<p style="color: red">{{ error }}</p>
+{% else %} {% block report_table %}
+<!-- Child templates override this block -->
+{% endblock %} {% endif %} {% endblock content%}

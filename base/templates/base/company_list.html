@@ -1,0 +1,34 @@
+{% extends 'base/main.html' %} {% block content %}
+
+<h1>Number of Companies: {{count}}</h1>
+<div id="search-add-wrapper">
+  <a id="add-link" href="{% url 'company_create' %}">
+    Create Company &nbsp;&#x2b;
+  </a>
+
+  <form class="search" method="get">
+    <input
+      placeholder="Company Name"
+      type="text"
+      name="searchArea"
+      value="{{search_input}}"
+    />
+    <input class="search-button" type="submit" value="Search" />
+  </form>
+</div>
+<div class="elements-wrapper">
+  {% for comp in companies %}
+  <div class="element-wrapper">
+    <div class="title">
+      <a href="{% url 'company_detail' comp.id %}">{{ comp.companyName }}</a>
+      <a href="{% url 'company_update' comp.id %}">Edit</a>
+      <a class="delete-link" href="{% url 'company_delete' comp.id %}"
+        >&nbsp;&#215;</a
+      >
+    </div>
+  </div>
+  {% empty %}
+  <h3 class="error">No Companies Found</h3>
+  {%endfor%}
+</div>
+{% endblock content %}

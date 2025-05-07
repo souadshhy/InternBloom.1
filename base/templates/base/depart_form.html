@@ -1,0 +1,12 @@
+{% extends 'base/main.html' %} {% block content %}
+<h1>Department Form</h1>
+<div class="elements-wrapper">
+  <a href="{% url 'departs' %}">&lt; Back</a>
+
+  <form method="post">
+    {% csrf_token %} {{form.as_p}}
+
+    <input class="search-button" type="submit" value="Submit" />
+  </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends "base/reports.html" %} {% block report_table %}
+<h3 class="mt-4 mb-3 text-center" style="color: rgba(29, 24, 24, 0.932)">
+  Companies' Acceptance Rates
+</h3>
+
+<div class="d-flex justify-content-center">
+  <table class="table table-bordered t">
+    <thead class="t-head">
+      <tr>
+        <th scope="col">Company</th>
+        <th scope="col">Accepted Applications</th>
+        <th scope="col">Total Positions</th>
+        <th scope="col">Acceptance Rate</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in report_data %}
+      <tr class="t-row">
+        <td>{{ row.0 }}</td>
+        <td>{{ row.1 }}</td>
+        <td>{{ row.2 }}</td>
+        <td>{{ row.3 }}&nbsp; %</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock report_table %}

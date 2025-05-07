@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %} {% block content %}
+<style>
+  .container {
+    width: 60vw;
+  }
+</style>
+<h1 style="font-size: 3rem">Register</h1>
+
+<form method="post" >
+  {% csrf_token %} {{ form.as_div }}
+  <input
+    class="search-button"
+    type="submit"
+    value="Register"
+    style="margin-top: 20px"
+  />
+</form>
+
+<p>Already have an account? <a href="{% url 'login' %}"> Login </a></p>
+{% endblock content%}

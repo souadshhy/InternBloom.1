@@ -1,0 +1,10 @@
+{% extends 'base/main.html' %} {% block content %}
+<h2>Application's Details</h2>
+<a href=" {%url 'apps'%} "> &lt; Back</a>
+<p>Student ID: {{apps.student.id}}</p>
+<p>Student Full Name: {{apps.student.name}} {{apps.student.surname}}</p>
+<p>Company Applied to: {{apps.company}}</p>
+<p>Position: {{apps.position}}</p>
+<p>Application Stuatus: {{apps.appStatus}}</p>
+
+{% endblock content %}

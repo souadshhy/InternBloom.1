@@ -1,0 +1,14 @@
+{% extends 'base/main.html' %} {% block content %}
+<h2>Are You Sure You Want To Delete:</h2>
+<a href="{% url 'apps' %}">&lt; Back</a>
+
+<form method="post">
+  {% csrf_token %}
+  <p>Student ID: {{app.student.id}}</p>
+  <p>Student Full Name: {{app.student.name}} {{app.student.surname}}</p>
+  <p>Company Applied to: {{app.company}}</p>
+  <p>Position: {{app.position}}</p>
+  <p>Application Stuatus: {{app.appStatus}}</p>
+  <input class="search-button" type="submit" value="Delete" />
+</form>
+{% endblock content %}

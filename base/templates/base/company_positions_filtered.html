@@ -1,0 +1,64 @@
+{% extends 'base/main.html' %} {% block content %}
+<h3 class="mt-4 mb-3" style="color: rgba(29, 24, 24, 0.932)">
+ Available Positions at {{ company.companyName }}
+</h3>
+
+<a
+  href="{% url 'company_detail' view.kwargs.pk %}"
+  style="color: rgb(95, 95, 95); text-decoration: none"
+>
+  &lt; Back
+</a>
+
+<br /><br />
+
+<div
+  id="search-add-wrapper"
+  class="d-flex justify-content-between align-items-center"
+>
+  <a
+    class="btn btn-success"
+    href="{% url 'position_create_filterd' company.id %}"
+  >
+    Add New Position &nbsp;&#x2b;
+  </a>
+</div>
+
+<div class="table-responsive mt-4">
+  <table class="table table-hover t">
+    <thead class="t-head">
+      <tr>
+        <th>Title</th>
+        <th>Duration (months)</th>
+        <th>Location</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for position in positions %}
+      <tr class="t-row">
+        <td style="padding: 12px 16px">{{ position.title }}</td>
+        <td style="padding: 12px 16px">{{ position.duration }}</td>
+        <td style="padding: 12px 16px">{{ position.location }}</td>
+        <td style="padding: 12px 16px">
+          {% if position.available %}
+          <button
+            class="btn btn-outline-primary btn-sm search-button"
+            onclick="window.location.href='{% url 'app_create_filtered' position.id position.company.id %}'"
+          >
+            Apply
+          </button>
+          {% else %}
+          <span class="badge bg-secondary">Filled</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4" class="text-center">No positions for this company.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}

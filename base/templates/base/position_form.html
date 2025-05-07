@@ -1,0 +1,18 @@
+{% extends 'base/main.html' %} {% block content %}
+
+<h1>Position Form</h1>
+
+{% if view.kwargs.company_id %}
+
+<a href="  {% url 'company_positions'  view.kwargs.company_id %} ">&lt; Back</a>
+{% else %}
+
+<a href=" {% url 'positions' %} ">&lt; Back</a>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+
+  <input class="search-button" type="submit" value="Submit" />
+</form>
+{% endblock content %}

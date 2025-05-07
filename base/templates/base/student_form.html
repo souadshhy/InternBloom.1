@@ -1,0 +1,14 @@
+{% extends 'base/main.html' %} {% block content %}
+
+<h1>Student Form</h1>
+
+<div id="elements-wrapper">
+  <a href=" {% url 'students' %} "> &lt; Back</a>
+  <form method="post">
+    {% csrf_token %} {{ form.as_p }}
+
+    <input class="search-button" type="submit" value="Submit" />
+  </form>
+</div>
+
+{% endblock content%}
