@@ -17,6 +17,10 @@ from . import models
 from . import reports
 
 
+class Homepage(TemplateView):
+    template_name = 'base/homepage.html'
+
+
 class UserLogin(LoginView):
     template_name = 'base/login.html'
     fields = '__all__'

@@ -4,8 +4,8 @@ from . import views
 
 
 urlpatterns = [
-
-
+    
+    path('', views.Homepage.as_view(), name='homepage'),
 
     path('login', views.UserLogin.as_view(), name='login'),
 
@@ -13,16 +13,20 @@ urlpatterns = [
 
     path('register/', views.RegisterPage.as_view(), name='register'),
 
+     # applications 
     path('apps_list', views.Apps_list.as_view(),
          name='apps'),
 
     path('apps_list/apps_detail/<int:pk>/', views.Apps_detail.as_view(),
          name='app_detail'),
 
+     # might delete this functionality, we can view apps & their details but cant create one from apps
     path('apps_list/apps_create',
          views.Apps_create.as_view(), name='app_create'),
 
-    # Note!!!
+
+    # Note!!! This functionality is to keep
+     #go into company>positions>Apply     
     path('apps_list/apps_create/<int:position_id>/<int:company_id>/',
          views.Apps_create_filtered.as_view(), name='app_create_filtered'),
 
@@ -34,6 +38,7 @@ urlpatterns = [
     path('apps_list/app_delete/<int:pk>',
          views.Apps_delete.as_view(), name='app_delete'),
 
+#    Positions offered by company
     path('positions_list', views.Positions_list.as_view(),
          name='positions'),
 
@@ -43,6 +48,7 @@ urlpatterns = [
     path('companies_list/position_create/',
          views.Position_create.as_view(), name='position_create'),
 
+# company>positions
     path('companies_list/position_create/<int:company_id>/',
          views.Position_create_filtered.as_view(), name='position_create_filterd'),
 
@@ -53,6 +59,7 @@ urlpatterns = [
     path('positions_list/position_delete/<int:pk>',
          views.Position_delete.as_view(), name='position_delete'),
 
+# companies
     path('companies_list', views.Company_list.as_view(),
          name='companies'),
 
@@ -80,7 +87,7 @@ urlpatterns = [
 
 
 
-
+#    students
     path('students_list', views.Student_list.as_view(),
          name='students'),
 
@@ -96,7 +103,7 @@ urlpatterns = [
     path('students_list/student_delete/<int:pk>/', views.Student_delete.as_view(),
          name='student_delete'),
 
-
+#  departments
     path('departs_list', views.Depart_list.as_view(),
          name='departs'),
 
