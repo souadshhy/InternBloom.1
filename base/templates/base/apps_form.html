@@ -1,15 +1,7 @@
 {% extends 'base/main.html' %} {% block content %}
 <h1>Application Form</h1>
 <div id="elements-wrapper">
-  {% if view.kwargs.position_id and view.kwargs.company_id %}
-
-  <a href=" {% url 'company_positions'  view.kwargs.company_id %} "
-    >&lt; Back</a
-  >
-  {% else %}
-
-  <a href=" {% url 'apps' %} ">&lt; Back</a>
-  {% endif %}
+ <a href=" {% url 'positions' %} ">&lt; Back</a>
   <form method="post">
     {%csrf_token%} {{ form.as_p}}
 

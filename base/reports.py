@@ -31,14 +31,14 @@ def positions_by_company_display():
                 p.location,
                 p.paid,
                 p.available,
+                COUNT(a.id) AS total_applications,
                 p.id,
-                c.id,
-                COUNT(a.id) AS total_applications
+                c.id
             FROM base_position p
             LEFT JOIN base_apps a ON a.position_id = p.id
             JOIN base_company c ON p.company_id = c.id
-            GROUP BY c.companyName
-            ORDER BY p.available;
+            GROUP BY   p.id, c.id
+            ORDER BY p.available DESC;
                        """)
         result = cursor.fetchall()
         return result

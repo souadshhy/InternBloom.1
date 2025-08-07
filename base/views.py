@@ -89,7 +89,7 @@ class Apps_create_filtered(LoginRequiredMixin, CreateView):
         position = models.Position.objects.get(pk=self.kwargs['position_id'])
 
         if not position.available:
-            return redirect('company_positions')
+            return redirect('positions')
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -115,7 +115,7 @@ class Apps_create_filtered(LoginRequiredMixin, CreateView):
         return form
 
     def get_success_url(self):
-        return reverse_lazy('company_positions', kwargs={'pk': self.kwargs['company_id']})
+        return reverse_lazy('positions')
 
 
 class Apps_update(LoginRequiredMixin, UpdateView):
@@ -140,8 +140,6 @@ class Positions_list(LoginRequiredMixin, ListView):
         context['positions'] = context['positions'].filter(
             user=self.request.user)
         context['count'] = context['positions'].filter().count()
-        context['position_data'] = reports.positions_by_company_display
-        
 
 # Looks for a query parameter in the URL like ?searchArea=Google or ''
         search_input = self.request.GET.get('searchArea') or ''

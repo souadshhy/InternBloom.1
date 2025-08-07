@@ -30,48 +30,31 @@
       </tr>
     </thead>
     <tbody>
-      {% for row in position_data %}
+      {% for position in positions %}
       <tr class="t-row">
-        <td>{{ row.0 }}</td>
-        <td>{{ row.1 }}</td>
-        <td>{{ row.2 }}</td>
-        <td>{{ row.3 }}</td>
-        <td>{{ row.4|yesno:"Paid,Unpaid" }}</td>
-        <td>{{ row.5|yesno:" 🟢,🔴" }}</td>
-        <td>{{ row.6 }}</td>
-        <td>
-          {% if row.5 %}
+        <td>{{ position.company.companyName }}</td>
+        <td>{{ position.title }}</td>
+        <td>{{ position.duration }}</td>
+        <td>{{ position.location }}</td>
+        <td>{{ position.paid|yesno:"Paid,Unpaid" }}</td>
+        <td>{{ position.available|yesno:" 🟢,🔴" }}</td>
+        <td>{{ position.total_applications }}</td>
+         <td>
+          {% if position.available %}
           <button
             class="btn btn-outline-primary btn-sm search-button"
-            onclick="window.location.href='{% url 'app_create_filtered' row.7 row.8 %}'"
+            onclick="window.location.href='{% url 'app_create_filtered' position.id position.company.id %}'"
           >
             Apply
           </button>
           {% endif %}
-        </td>
+        </td> 
       </tr>
+      {% empty %}
+        <h3 class="error">No Positions Found</h3>
       {% endfor %}
     </tbody>
   </table>
 </div>
 {% endblock report_table %}
 {% endblock content %}
-
-{% comment %} <div class="elements-wrapper">
-  {% for position in positions %}
-  <div class="element-wrapper">
-    <div class="title">
-
-      <a href="{% url 'position_detail' position.id %}">{{position.title}}
-        &nbsp;At&nbsp;
-        {{position.company.companyName}}&nbsp;&nbsp;</a>
-
-      <a href="{% url 'position_update' position.id %}">Edit</a>
-      <a class="delete-link"
-        href="{% url 'position_delete' position.id %}">&nbsp;&#215;</a>
-    </div>
-  </div>
-  {% empty %}
-  <h3 class="error">No Positions Found</h3>
-  {%endfor%}
-</div> {% endcomment %}
