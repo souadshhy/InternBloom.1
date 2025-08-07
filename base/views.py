@@ -138,7 +138,7 @@ class Positions_list(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['positions'] = context['positions'].filter(
-            user=self.request.user)
+            user=self.request.user).order_by('company__companyName','-available')
         context['count'] = context['positions'].filter().count()
 
 # Looks for a query parameter in the URL like ?searchArea=Google or ''

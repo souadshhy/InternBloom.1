@@ -1,20 +1,19 @@
 {% extends "base/reports.html" %}
-
 {% block content %}
 
 <h1>Number of Positions: {{count}}</h1>
 
 <div id="search-add-wrapper">
-
   {% comment %} <a id="add-link" href="{% url 'position_create' %}"> Add Position &#x2b</a> {% endcomment %}
-
   <form class="search" method="get">
     <input placeholder="Company Name" type="text" name="searchArea"
       value="{{ search_input }}"/>
     <input class="search-button" type="submit" value="Search"/>
   </form>
 </div>
+
 {% block report_table %}
+{% regroup positions by company as company_groups %}
 <div class="d-flex justify-content-center">
   <table class="table table-bordered t">
     <thead class="t-head">
@@ -29,10 +28,17 @@
         <th scope="col"></th>
       </tr>
     </thead>
+
     <tbody>
-      {% for position in positions %}
+      {% for group in company_groups %}
+      <tr class='t-row'  style="
+          font-size:1.1rem; background-color: rgba(218, 201, 207, 0.41); 
+      ">
+        <td style='text-align:left' colspan='8'><strong>{{ group.grouper.companyName }} </strong></td>
+      </tr>
+      {% for position in group.list %}
       <tr class="t-row">
-        <td>{{ position.company.companyName }}</td>
+        <td></td>
         <td>{{ position.title }}</td>
         <td>{{ position.duration }}</td>
         <td>{{ position.location }}</td>
@@ -50,11 +56,15 @@
           {% endif %}
         </td> 
       </tr>
-      {% empty %}
-        <h3 class="error">No Positions Found</h3>
+      {% endfor %}
       {% endfor %}
     </tbody>
+    
   </table>
+    {% if not positions %}
+      <h3 class='error'>No Positions Found</h3>
+    {% endif %}
+      
 </div>
 {% endblock report_table %}
 {% endblock content %}
