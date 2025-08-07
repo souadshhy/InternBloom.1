@@ -21,6 +21,28 @@ def report_total_applications_per_position():
         result = cursor.fetchall()
         return result
 
+def positions_by_company_display():
+    with connection.cursor() as cursor:
+        cursor.execute("""
+               SELECT 
+                c.companyName,
+                p.title,
+                p.duration,
+                p.location,
+                p.paid,
+                p.available,
+                p.id,
+                c.id,
+                COUNT(a.id) AS total_applications
+            FROM base_position p
+            LEFT JOIN base_apps a ON a.position_id = p.id
+            JOIN base_company c ON p.company_id = c.id
+            GROUP BY c.companyName
+            ORDER BY p.available;
+                       """)
+        result = cursor.fetchall()
+        return result
+
 
 def report_available_positions():
     with connection.cursor() as cursor:

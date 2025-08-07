@@ -1,4 +1,4 @@
-{% extends 'base/main.html' %}
+{% extends "base/reports.html" %}
 
 {% block content %}
 
@@ -6,17 +6,58 @@
 
 <div id="search-add-wrapper">
 
-  <a id="add-link" href="{% url 'position_create' %}"> Add Position &nbsp;
-    &#x2b</a>
+  {% comment %} <a id="add-link" href="{% url 'position_create' %}"> Add Position &#x2b</a> {% endcomment %}
 
   <form class="search" method="get">
     <input placeholder="Company Name" type="text" name="searchArea"
-      value="{{search_input}}">
-    <input class="search-button" type="submit" value="Search">
-
+      value="{{ search_input }}"/>
+    <input class="search-button" type="submit" value="Search"/>
   </form>
 </div>
-<div class="elements-wrapper">
+{% block report_table %}
+<div class="d-flex justify-content-center">
+  <table class="table table-bordered t">
+    <thead class="t-head">
+      <tr>
+        <th scope="col">Company</th>
+        <th scope="col">Title</th>
+        <th scope="col">Duration<br />(months)</th>
+        <th scope="col">Location</th>
+        <th scope="col">Paid</th>
+        <th scope="col">Available</th>
+        <th scope="col">Total Applications</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in position_data %}
+      <tr class="t-row">
+        <td>{{ row.0 }}</td>
+        <td>{{ row.1 }}</td>
+        <td>{{ row.2 }}</td>
+        <td>{{ row.3 }}</td>
+        <td>{{ row.4|yesno:"Paid,Unpaid" }}</td>
+        <td>{{ row.5|yesno:" 🟢,🔴" }}</td>
+        <td>{{ row.6 }}</td>
+        <td>
+          {% if row.5 %}
+          <button
+            class="btn btn-outline-primary btn-sm search-button"
+            onclick="window.location.href='{% url 'app_create_filtered' row.7 row.8 %}'"
+          >
+            Apply
+          </button>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock report_table %}
+{% endblock content %}
+
+{% comment %} <div class="elements-wrapper">
   {% for position in positions %}
   <div class="element-wrapper">
     <div class="title">
@@ -33,6 +74,4 @@
   {% empty %}
   <h3 class="error">No Positions Found</h3>
   {%endfor%}
-</div>
-
-{% endblock content %}
+</div> {% endcomment %}

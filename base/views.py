@@ -134,18 +134,22 @@ class Positions_list(LoginRequiredMixin, ListView):
     model = models.Position
     context_object_name = 'positions'
 
+# the kwargs are the keywords and arguments passed from parent class
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['positions'] = context['positions'].filter(
             user=self.request.user)
         context['count'] = context['positions'].filter().count()
+        context['position_data'] = reports.positions_by_company_display
+        
 
+# Looks for a query parameter in the URL like ?searchArea=Google or ''
         search_input = self.request.GET.get('searchArea') or ''
         if search_input:
             context['positions'] = context['positions'].filter(
                 company__companyName__startswith=search_input)
-
             context['search_input'] = search_input
+            
         return context
 
 
@@ -402,6 +406,7 @@ class Depart_delete(LoginRequiredMixin, DeleteView):
 
 class Reports(LoginRequiredMixin, TemplateView):
     def get_template_names(self):
+
         report_name = self.kwargs.get('report_name')
         if report_name == 'most_applied_positions':
             return ['base/apps_per_position.html']
