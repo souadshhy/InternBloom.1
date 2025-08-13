@@ -1,7 +1,7 @@
 
 from django import forms
-from django.db.models import Q
-
+from django.db.models import Q, Count
+from django.urls import reverse
 from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic.detail import DetailView
 from django.views.generic.base import TemplateView
@@ -70,6 +70,8 @@ class Apps_detail(LoginRequiredMixin, DetailView):
     model = models.Apps
     context_object_name = 'apps'
 
+ 
+
 
 class Apps_create(LoginRequiredMixin, CreateView):
     model = models.Apps
@@ -137,9 +139,15 @@ class Positions_list(LoginRequiredMixin, ListView):
 # the kwargs are the keywords and arguments passed from parent class
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['positions'] = context['positions'].filter(
-            user=self.request.user).order_by('company__companyName','-available')
+        
+        positions_qs= context['positions']\
+            .filter(user=self.request.user)\
+            .order_by('company__companyName','-available')\
+            .annotate(total_applications=Count('apps'))
+        
+        context['positions'] = positions_qs
         context['count'] = context['positions'].filter().count()
+        
 
 # Looks for a query parameter in the URL like ?searchArea=Google or ''
         search_input = self.request.GET.get('searchArea') or ''
@@ -154,6 +162,18 @@ class Positions_list(LoginRequiredMixin, ListView):
 class Position_detail(LoginRequiredMixin, DetailView):
     model = models.Position
     context_object_name = 'position'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        back_url = self.request.META.get('HTTP_REFERER','')
+        
+        accepted_apps = self.object.apps.filter(appStatus='accepted')\
+            .select_related('student')
+        context['accepted_apps'] = accepted_apps
+
+        context['back_url']=back_url
+        
+        return context
 
 
 class Position_create(LoginRequiredMixin, CreateView):
@@ -222,6 +242,22 @@ class Company_list(LoginRequiredMixin, ListView):
 class Company_detail(LoginRequiredMixin, DetailView):
     model = models.Company
     context_object_name = 'companies'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        back_url = self.request.META.get('HTTP_REFERER', '')
+
+        if 'companies_list' in back_url:
+            back_url = reverse('companies')
+
+        elif 'apps_list' in back_url:
+            back_url = reverse('apps')
+        else:
+            back_url = reverse('homepage')
+        
+        context['back_url'] = back_url
+        return context
 
 
 class Company_create(LoginRequiredMixin, CreateView):
@@ -319,6 +355,13 @@ class Student_list(LoginRequiredMixin, ListView):
 class Student_detail(LoginRequiredMixin, DetailView):
     model = models.Student
     context_object_name = 'student'
+    
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+        back_url = self.request.META.get('HTTP_REFERER')
+    
+        context["back_url"] = back_url
+        return context
 
 
 class Student_create(LoginRequiredMixin, CreateView):

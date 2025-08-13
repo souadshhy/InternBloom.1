@@ -4,8 +4,8 @@
 
 <h1>Number of Appliacations: {{count}}</h1>
 
-<div id="search-add-wrapper">
-  <a id="add-link" href="{% url 'app_create' %}"> &nbsp; Create Application
+<div style="justify-content:space-between" id="search-add-wrapper">
+  <a  id="add-link" href="{% url 'app_create' %}"> &nbsp; Create Application
     &#x2b </a>
   <form method="get" class="search">
     <input placeholder="Student Name" type="text" name="searchArea" value="{{search_input}}">
@@ -14,18 +14,43 @@
   </form>
 </div>
 
-<div class="elements-wrapper">
-  {% for app in apps %}
-  <div class="element-wrapper">
-    <div class="title">
-      <a href="{% url 'app_detail' app.id %}"> {{ app.student.name }} {{ app.student.surname }}</a>
-      <a href="{% url 'app_update' app.id %}">Edit</a>
-      <a class="delete-link" href="{% url 'app_delete' app.id %}">&nbsp;&#215;</a>
-    </div>
-  </div>
-  {% empty %}
-  <h3 class="error">No Applications Found</h3>
-  {% endfor %}
+<div class="table-responsive" style="margin-top: 20px">
+  <table class="table table-hover t">
+    <thead class="t-head">
+      <tr>
+        <th>Student</th>
+        <th>Company</th>
+        <th>Position</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for app in apps %}
+      <tr class="t-row">
+        <td style="padding: 12px 16px">{{ app.student }}</td>
+        <td style="padding: 12px 16px"><a href='{% url "company_detail" app.company.id%}'>{{ app.company.companyName }}</a></td>
+         <td style="padding: 12px 16px"><a href="{% url 'position_detail' app.position.id %}" >{{ app.position }}</a></td>
+        <td style="padding: 12px 16px">
+          {% if app.appStatus == 'accepted' %}
+          <span>🟢</span>
+          {% elif app.appStatus == 'rejected' %}
+          <span>🔴</span>
+          {% elif app.appStatus == 'pending' %}
+          <span>🟡</span>
+          {% else %}
+          <h4>Unknown Status</h4>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3" class="text-center">
+          No Applications Found.
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 {% endblock content %}

@@ -1,6 +1,5 @@
 from django.db import connection
 
-
 def report_total_applications_per_position():
     with connection.cursor() as cursor:
         cursor.execute("""
@@ -94,3 +93,5 @@ def report_acceptance_per_company():
 
         """)
         return cursor.fetchall()
+
+

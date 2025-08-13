@@ -1,10 +1,27 @@
 {% extends 'base/main.html' %} {% block content %}
 
 <h2>Position Details</h2>
-<a href=" {%url 'positions'%} "> &lt; Back</a>
+<a href=" {{ back_url }} "> &lt; Back</a>
 
 <p>Title: {{position.title}}<span> at {{position.company}}</span></p>
 <p>Duration: {{position.duration}}</p>
 <p>Location: {{position.location}}</p>
-<p>Paid: {{position.paid}}</p>
+<p>Paid: {{position.paid|yesno:" Paid,Unpaid"}}</p>
+<p>Availablity: {{position.available|yesno:" 🟢,🔴"}}</p>
+
+{% if not position.available  %}
+    {% if accepted_apps %}
+        <p>Student Accepted: </p>
+        <ul>
+            
+            {% for app in accepted_apps  %}
+            <li><a href='{% url "student_detail" app.student.id %}'>{{ app.student.name }} {{ app.student.surname }}</a></li>
+            {% endfor %}
+                
+        </ul>
+        {% else %}
+        <p>No Students Accepted.</p>
+    {% endif %}
+{% endif %}
+    
 {% endblock content %}

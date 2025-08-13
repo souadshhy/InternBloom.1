@@ -60,7 +60,7 @@ class Apps(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name='apps')
     appStatus = models.CharField(
         max_length=10,
         choices=APPLICATION_STATUS,

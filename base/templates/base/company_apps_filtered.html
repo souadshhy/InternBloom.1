@@ -27,6 +27,7 @@
     <thead class="t-head">
       <tr>
         <th>Student</th>
+        <th>Company</th>
         <th>Position</th>
         <th>Status</th>
       </tr>
@@ -35,7 +36,8 @@
       {% for app in apps %}
       <tr class="t-row">
         <td style="padding: 12px 16px">{{ app.student }}</td>
-        <td style="padding: 12px 16px">{{ app.position }}</td>
+        <td style="padding: 12px 16px">{{ app.company.companyName }}</td>
+         <td style="padding: 12px 16px"><a href="{% url 'position_detail' app.position.id %}" >{{ app.position }}</a></td>
         <td style="padding: 12px 16px">
           {% if app.appStatus == 'accepted' %}
           <span>🟢</span>

@@ -11,7 +11,8 @@
 </style>
 
 <h2>Company's Details</h2>
-<a href=" {% url 'companies' %} "> &lt; Back</a>
+
+<a href="{{ back_url }} "> &lt; Back</a>
 
 <p>Company ID: {{companies.id}}</p>
 <p>Company Name: {{companies.companyName}}</p>

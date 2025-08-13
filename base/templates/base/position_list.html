@@ -1,6 +1,8 @@
 {% extends "base/reports.html" %}
 {% block content %}
 
+
+  
 <h1>Number of Positions: {{count}}</h1>
 
 <div id="search-add-wrapper">
@@ -38,23 +40,31 @@
       </tr>
       {% for position in group.list %}
       <tr class="t-row">
+        
         <td></td>
+        
+        {% if position.available %}
         <td>{{ position.title }}</td>
+        {% else %}
+        <td><a href='{% url "position_detail" position.id %}'>{{ position.title }}</a></td>
+        {% endif %}
+          
         <td>{{ position.duration }}</td>
         <td>{{ position.location }}</td>
         <td>{{ position.paid|yesno:"Paid,Unpaid" }}</td>
         <td>{{ position.available|yesno:" 🟢,🔴" }}</td>
-        <td>{{ position.total_applications }}</td>
+        <td>{{ position.total_applications }} </td>
          <td>
           {% if position.available %}
           <button
             class="btn btn-outline-primary btn-sm search-button"
             onclick="window.location.href='{% url 'app_create_filtered' position.id position.company.id %}'"
-          >
+            >
             Apply
           </button>
           {% endif %}
-        </td> 
+        </td>
+       
       </tr>
       {% endfor %}
       {% endfor %}
