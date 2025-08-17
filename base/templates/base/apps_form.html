@@ -1,11 +1,108 @@
-{% extends 'base/main.html' %} {% block content %}
+{% extends 'base/main.html' %}
+{% block content %}
 <h1>Application Form</h1>
+
 <div id="elements-wrapper">
- <a href=" {% url 'positions' %} ">&lt; Back</a>
-  <form method="post">
-    {%csrf_token%} {{ form.as_p}}
+  <a href="{% url 'positions' %}">&lt; Back</a>
+
+  <form method="post" id="apps-form">
+    {% csrf_token %}
+
+    <p>
+      {{ form.student.label_tag }}
+      {{ form.student }}
+    </p>
+
+    <p>
+      {{ form.company.label_tag }}
+      {{ form.company }}
+    </p>
+
+    <p>
+      {{ form.position.label_tag }}
+      {{ form.position }}
+      <!-- position is rendered disabled by the form -->
+    </p>
+
+    <p>
+      {{ form.appStatus.label_tag }}
+      {{ form.appStatus }}
+      <!-- appStatus is also disabled initially -->
+    </p>
 
     <input class="search-button" type="submit" value="Submit" />
   </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  
+  // grab elements by the auto-generated IDs Django uses
+  const companySelect  = document.getElementById('id_company');
+  const positionSelect = document.getElementById('id_position');
+  const statusSelect   = document.getElementById('id_appStatus');
+  const form           = document.getElementById('apps-form');
+
+  // convenience: wipe and reset the positions list to just the dashed placeholder
+  function resetPositions() {
+    positionSelect.innerHTML = '<option value="">---------</option>';
+  }
+
+  // enable/disable the dependent fields (Position + AppStatus) as a pair
+  function setDependentsDisabled(disabled) {
+    positionSelect.disabled = disabled;
+    statusSelect.disabled = disabled;
+  }
+
+  resetPositions();
+  // (the server already rendered them disabled, but this keeps state consistent)
+  setDependentsDisabled(true);
+
+  companySelect.addEventListener('change', function () {
+    const companyId = this.value;
+
+    // clear out old positions whenever company changes
+    resetPositions();
+
+    // no company selected? keep everything disabled and bail.
+    if (!companyId) {
+      setDependentsDisabled(true);
+      return;
+    }
+
+    // fetch positions for that company — this is the "AJAX" call
+    fetch(`/ajax/positions/${companyId}/`)
+      .then(response => response.json())
+      .then(data => {
+       
+        // data = { positions: [ {id, name}, ... ] }
+        data.positions.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;      // submit this value
+          opt.textContent = p.name; // show this text
+          positionSelect.appendChild(opt);
+        });
+
+        // now that we have data, allow user to pick position + appStatus
+        setDependentsDisabled(false);
+      })
+      
+      .catch(err => {
+        console.error('Could not load positions:', err);
+        // keep fields disabled if something failed
+        setDependentsDisabled(true);
+      });
+
+  });
+
+  // FINAL SAFETY: disabled fields are NOT submitted by browsers.
+  // ensure they are enabled right before submit so their values go through.
+  form.addEventListener('submit', function () {
+    positionSelect.disabled = false;
+    statusSelect.disabled = false;
+  });
+
+});
+
+</script>
 {% endblock content %}

@@ -281,7 +281,7 @@
         <span style="margin-left: 10px"
           >Welcome, &nbsp;<b>{{ request.user |title}}</b></span
         >
-        <form action="{% url 'logout' %}">
+        <form method='POST' action="{% url 'logout' %}">
           {% csrf_token %}
           <button
             style="margin-top: 10px; margin-right: 30px"

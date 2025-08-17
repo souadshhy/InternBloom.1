@@ -23,6 +23,9 @@ urlpatterns = [
      # might delete this functionality, we can view apps & their details but cant create one from apps
     path('apps_list/apps_create',
          views.Apps_create.as_view(), name='app_create'),
+     
+     path('ajax/positions/<int:company_id>/', views.positions_by_company, name='ajax_positions'),
+
 
 
     # Note!!! This functionality is to keep

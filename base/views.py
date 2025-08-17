@@ -1,4 +1,7 @@
-
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_GET
+from django.http import JsonResponse
+from .forms import AppsForm
 from django import forms
 from django.db.models import Q, Count
 from django.urls import reverse
@@ -70,17 +73,28 @@ class Apps_detail(LoginRequiredMixin, DetailView):
     model = models.Apps
     context_object_name = 'apps'
 
- 
 
 
 class Apps_create(LoginRequiredMixin, CreateView):
     model = models.Apps
-    fields = ['student', 'company', 'position', 'appStatus']
+    form_class = AppsForm
     success_url = reverse_lazy('apps')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super(Apps_create, self).form_valid(form)
+        return super().form_valid(form)
+
+@login_required
+@require_GET
+def positions_by_company(request, company_id):
+    """
+    Return JSON like:
+    { "positions": [ {"id": 12, "name": "Backend Intern"}, ... ] }
+    Only positions for the given company_id.
+    """
+    qs = models.Position.objects.filter(company_id=company_id)
+    data = [{"id": p.id, "name": str(p)} for p in qs]  # uses Position.__str__()
+    return JsonResponse({"positions": data})
 
 
 class Apps_create_filtered(LoginRequiredMixin, CreateView):
