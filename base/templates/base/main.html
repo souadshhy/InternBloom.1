@@ -206,7 +206,7 @@
 
       #search-add-wrapper {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
         padding: 10px;
       }
@@ -297,13 +297,13 @@
       </div>
       <nav class="second-header">
         <ul style="margin-left: 20px">
-          {% comment %} <li class="submenu-trigger">
+          <li class="submenu-trigger">
             <a href="#">University</a>
             <ul class="submenu">
               <li><a href="{% url 'departs' %}">Departments</a></li>
               <li><a href="{% url 'students' %}">Students</a></li>
             </ul>
-          </li> {% endcomment %}
+          </li> 
           <li class='submenu-trigger'>
               <a href="{% url 'companies' %}">Companies</a>
               <ul class="submenu">

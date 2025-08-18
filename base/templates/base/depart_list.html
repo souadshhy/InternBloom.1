@@ -2,7 +2,7 @@
 
 <h1>Number of Departments: {{count}}</h1>
 <div id="search-add-wrapper">
-    <a id="add-link" href="{% url 'depart_create' %}"> &nbsp; Create
+    <a  id="add-link" href="{% url 'depart_create' %}"> &nbsp; Create
         Department &#x2b</a>
 
     <form class="search" method="get">
@@ -15,7 +15,7 @@
     {% for depart in departs %}
     <div class="element-wrapper">
         <div class="title">
-            <a>
+            <a href="{% url 'depart_detail' depart.id %}">
                 {{depart.deptName}}
             </a>
             <a href="{% url 'depart_update' depart.id %}">Edit </a>

@@ -27,7 +27,7 @@
     <tbody>
       {% for app in apps %}
       <tr class="t-row">
-        <td style="padding: 12px 16px">{{ app.student }}</td>
+        <td style="padding: 12px 16px"><a href='{% url "student_detail" app.student.id %}'>{{ app.student }}</td>
         <td style="padding: 12px 16px"><a href='{% url "company_detail" app.company.id%}'>{{ app.company.companyName }}</a></td>
          <td style="padding: 12px 16px"><a href="{% url 'position_detail' app.position.id %}" >{{ app.position }}</a></td>
         <td style="padding: 12px 16px">

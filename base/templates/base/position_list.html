@@ -5,8 +5,7 @@
   
 <h1>Number of Positions: {{count}}</h1>
 
-<div id="search-add-wrapper">
-  {% comment %} <a id="add-link" href="{% url 'position_create' %}"> Add Position &#x2b</a> {% endcomment %}
+<div id="search-add-wrapper" style='justify-content:flex-end;'>
   <form class="search" method="get">
     <input placeholder="Company Name" type="text" name="searchArea"
       value="{{ search_input }}"/>
